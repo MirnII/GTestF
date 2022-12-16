@@ -1,0 +1,66 @@
+﻿<Window x:Class="GTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GTest" xmlns:viewmodels="clr-namespace:GTest.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:Context}"
+        mc:Ignorable="d"
+        Title="{Binding fileName}" SizeChanged="Window_SizeChanged" SizeToContent="WidthAndHeight" MinWidth="1020" MinHeight="600" Name="ow" >
+
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel x:Name="stackPanel">
+            <TextBox Grid.Column="0"   Text="{Binding fileDirectory, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Height="30" Margin="10" Name="pathToFile"></TextBox>
+            <WrapPanel>
+                <Button Command="{Binding chooseFile}"  Grid.Column="0" Margin="10,0,0,0" Width="190" Height="45"  Name="chooseFile">Выбрать файл</Button>
+                <Button Command="{Binding loadFile}" Grid.Column="0" Margin="0,0,10,0"  Width="190" Height="45"   Name="loadFile">Импорт</Button>
+            </WrapPanel>
+            <DataGrid Width="380"   AutoGenerateColumns="False" MaxHeight="1000" SelectionChanged="dataView_SelectionChanged" HorizontalScrollBarVisibility="Auto"  RowHeight="25"   FontSize="14"  Foreground="Black" ItemsSource="{Binding Item}"  Grid.Column="0"  Name="dataView" MinHeight="440" Height="{Binding Height, ElementName=stackPanel}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding = "{Binding Name}" Header = "Название" Width="*"/>
+                    <DataGridTextColumn Binding = "{Binding Distance}" Header = "Х" Width="30"/>
+                    <DataGridTextColumn Binding = "{Binding Angle}" Header = "У"  Width="30"/>
+                    <DataGridTextColumn Binding = "{Binding Width}" Header = "Ширина" Width="65" />
+                    <DataGridTextColumn Binding = "{Binding Height}" Header = "Высота"  Width="65"/>
+                    <DataGridTextColumn Binding = "{Binding IsDefect}" Header = "Дефект"  Width="65"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <StackPanel Margin="10" DataContext="{Binding ElementName=dataView, Path=SelectedItem}" Width="{Binding ElementName=elementView, Path=ActualWidth}">
+                <WrapPanel>
+                    <Label Content="Название: "  Width="100"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged }"/>
+                </WrapPanel>
+                <WrapPanel>
+                    <Label Content="Гор.кордината: " Width="100"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Distance, UpdateSourceTrigger=PropertyChanged}"/>
+                </WrapPanel>
+                <WrapPanel>
+                    <Label Content="Верт.кордината: " Width="100"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Angle, UpdateSourceTrigger=PropertyChanged}" />
+                </WrapPanel>
+                <WrapPanel>
+                    <Label Content="Ширина: " Width="100"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
+                </WrapPanel>
+                <WrapPanel>
+                    <Label Content="Высота: " Width="100"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
+                </WrapPanel>
+                <WrapPanel>
+                    <Label Content="Дефект: " Width="100"/>
+                    <TextBlock Grid.Column="1" Text="{Binding IsDefect, UpdateSourceTrigger=PropertyChanged}" />
+                </WrapPanel>
+            </StackPanel>
+            <Canvas  Grid.Column="1" Name="elementView"  Background="Aquamarine" Height="360" Width="600" MaxWidth="800" >
+
+            </Canvas>
+        </StackPanel>
+
+
+    </Grid>
+</Window>
